@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>서울 기온 AI 비서</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🌡️ 서울 기온 AI 비서</h1>
+    <span id="server-status" class="badge badge-wait">서버 확인 중…</span>
+  </header>
+
+  <!-- 콜드스타트 안내 (Render 무료 서버가 잠들어 있을 때) -->
+  <div id="wake-banner" class="banner hidden">
+    ☕ 무료 서버가 잠에서 깨는 중이에요. 첫 접속은 최대 1분 정도 걸릴 수 있어요.
+  </div>
+
+  <div class="layout">
+    <!-- 왼쪽: 요약 + 대화 기록 -->
+    <aside class="sidebar">
+      <section class="card">
+        <h2>📊 데이터 요약</h2>
+        <dl id="summary" class="summary"><dd class="muted">불러오는 중…</dd></dl>
+      </section>
+
+      <section class="card">
+        <div class="row-between">
+          <h2>🗂️ 대화 기록</h2>
+          <button id="new-chat-btn" class="btn btn-small">+ 새 대화</button>
+        </div>
+        <ul id="conversation-list" class="conv-list"><li class="muted">불러오는 중…</li></ul>
+      </section>
+    </aside>
+
+    <!-- 오른쪽: 탭 (채팅 / 데이터 관리) -->
+    <main class="main">
+      <nav class="tabs">
+        <button class="tab active" data-tab="chat">💬 채팅</button>
+        <button class="tab" data-tab="data">📝 데이터 관리</button>
+      </nav>
+
+      <!-- 채팅 탭 -->
+      <section id="tab-chat" class="tab-panel card">
+        <div id="messages" class="messages">
+          <div class="msg assistant">안녕하세요! 서울 2025년 기온 데이터를 알고 있는 AI 비서예요. "가장 더웠던 날은?", "12월 추세는 어때?" 처럼 물어보세요.</div>
+        </div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" type="text" placeholder="질문을 입력하세요" maxlength="1000" autocomplete="off" required />
+          <button id="send-btn" class="btn" type="submit">보내기</button>
+        </form>
+      </section>
+
+      <!-- 데이터 관리 탭 -->
+      <section id="tab-data" class="tab-panel card hidden">
+        <form id="data-form" class="data-form">
+          <input id="f-date" type="date" required />
+          <input id="f-value" type="number" step="0.1" min="-60" max="60" placeholder="평균기온(℃)" required />
+          <input id="f-memo" type="text" maxlength="200" placeholder="메모 (선택)" />
+          <button id="data-submit" class="btn" type="submit">추가</button>
+          <button id="data-cancel" class="btn btn-ghost hidden" type="button">취소</button>
+        </form>
+        <p id="data-result" class="muted"></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>날짜</th><th>평균기온(℃)</th><th>메모</th><th></th></tr></thead>
+            <tbody id="data-tbody"><tr><td colspan="4" class="muted">불러오는 중…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- config.js: API 서버 주소 (Vercel 빌드 시 환경 변수 API_BASE_URL로 자동 생성) -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
